@@ -1,0 +1,14 @@
+;; shadow-cljs configuration
+{:source-paths ["src"]
+ :dependencies [[org.clojure/clojurescript "1.10.866"]
+                [org.clojure/core.async "1.6.681"]]
+ :builds {:azure-function
+          {:target :node-library
+           :exports {:hello azure-function.core/hello}
+           :output-to "azure-function/index.js"
+           :compiler-options {:optimizations :simple}
+           }
+          :node-repl
+          {:target :node-script
+           :main azure-function.core/main
+           :output-to "out/main.js"}}}

@@ -1,0 +1,20 @@
+{
+  "name": "azure-function-example",
+  "version": "1.0.0",
+  "description": "ClojureScript Azure Function Example",
+  "main": "azure-function/index.js",
+  "scripts": {
+    "start": "func start",
+    "repl": "npx shadow-cljs node-repl",
+    "build": "npx shadow-cljs release azure-function"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "source-map-support": "^0.5.19",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.15.2",
+    "azure-functions-core-tools": "^4.x"
+  }
+}
