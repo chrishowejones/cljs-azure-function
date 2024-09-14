@@ -1,6 +1,5 @@
 (ns azure-function.core
-  (:require [cljs.nodejs :as nodejs]
-            [cljs.core.async :refer [go]]
+  (:require [cljs.core.async :refer [go]]
             [cljs.core.async.interop :refer-macros [<p!]]
             ["@azure/functions" :refer [app]]))
 
@@ -9,13 +8,18 @@
    #js {:status 200
         :body (str "Hello, " name "!")}))
 
-(defn ^:export hello [^js req ^js _context]
+(defn hello [^js req ^js context]
   (js/Promise.
    (fn [resolve _]
-     (println "Http function processed request for url:" (.-url req))
-     (if-let [name (-> req .-query (.get "name"))]
-       (resolve (format-response name))
-       (.then (.text req) #(resolve (format-response %)))))))
+     (.log context "Hello function processed request for url" (.-url req))
+     (if-let [query-name (-> req .-query (.get "name"))]
+       (do
+         (println "Name=" query-name)
+         (resolve (format-response query-name)))
+       (go
+         (let [body-name (<p! (.then (.text req)))]
+           (println "Name from body text=" body-name)
+           (resolve (format-response body-name))))))))
 
 (app.http "hello" #js {:methods #js ["GET" "POST"]
                        :authLevel "anonymous"
