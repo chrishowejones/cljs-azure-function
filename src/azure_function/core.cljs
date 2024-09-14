@@ -11,18 +11,17 @@
     #js {:status 200
          :body (str "Hello, " name "!")}))
 
-(defn hello [^js req ^js context]
-  (js/Promise.resolve
-   (-> req
-       .text
-       (.then (fn [text]
-                (if (= text "")
-                  (format-response (-> req .-query (.get "name")))
-                  (format-response text)))))))
+(defn hello [^js req]
+  (if-let [name (-> req .-query (.get "name"))]
+     (format-response name)
+     (-> req .text (.then #(format-response %)))))
+
+(defn hello-handler [^js req ^js _context]
+  (js/Promise.resolve (hello req)))
 
 (app.http "hello" #js {:methods #js ["GET" "POST"]
                        :authLevel "anonymous"
-                       :handler hello})
+                       :handler hello-handler})
 
 
 
