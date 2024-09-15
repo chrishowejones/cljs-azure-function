@@ -2,7 +2,7 @@
   :dependencies [[org.clojure/clojure "1.10.3"]
                  [org.clojure/clojurescript "1.10.866"]
                  [thheller/shadow-cljs "2.15.2"]]
-  :source-paths ["src"])
+  :source-paths ["src" "test"])
 
 
 

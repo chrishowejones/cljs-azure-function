@@ -1,5 +1,5 @@
 ;; shadow-cljs configuration
-{:source-paths ["src"]
+{:source-paths ["src" "test"]
  :dependencies []
  :builds {:azure-function
           {:target :node-library
@@ -7,6 +7,10 @@
            :output-to "azure-function/index.js"
            :compiler-options {:optimizations :simple}
            }
+          :test
+          {:target    :node-test
+           :output-to "out/node-tests.js"
+           :autorun   true}
           :node-repl
           {:target :node-script
            :main azure-function.core/main
