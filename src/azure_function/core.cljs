@@ -1,5 +1,7 @@
 (ns azure-function.core
-  (:require ["@azure/functions" :refer [app]]))
+  ;; Have to use :as or shadow-cljs doesn't extern the functions refs
+  ;; Note: just using :refer didn't work
+  (:require ["@azure/functions" :as funcs]))
 
 (defn format-response [name]
   (let [name (if (or (nil? name)
@@ -17,7 +19,8 @@
 (defn hello-handler [^js req ^js _context]
   (js/Promise.resolve (hello req)))
 
-(app.http "hello" #js {:methods #js ["GET" "POST"]
+;; Register the Azure function as an HTTP function against URL /api/hello
+(funcs/app.http "hello" #js {:methods #js ["GET" "POST"]
                        :authLevel "anonymous"
                        :handler hello-handler})
 
@@ -26,44 +29,14 @@
 
   (.then (hello-handler #js {:query #js {:get (constantly nil)}
                              :text (constantly
-                                    (js/Promise. (fn [resolve _] (resolve "text"))))}
+                                    (js/Promise. (fn [resolve _] (resolve "name in body"))))}
                         #js {})
          #(prn %))
 
-  (.then (hello #js {:query #js {:get (constantly nil)}
-                     :text (constantly
-                            (js/Promise. (fn [resolve _] (resolve "text"))))})
+  (.then (hello-handler #js {:query #js {:get (constantly "name in query")}}
+                        #js {})
          #(prn %))
 
-  (defn count-2+ [url]
-    ;; *** CORRECT
-    (js/Promise.resolve
-     (if (empty? url)
-       0
-       (-> (js/fetch url)
-           (.then (fn [r] (let [text (.text r)]
-                            (prn [:req r])
-                            (prn [:text text])
-                            text)))
-           (.then (fn [s]
-                    (->> s
-                         (.parse js/JSON)
-                         js->clj)))))))
-
-  (.then (js/fetch "https://google.co.uk") (fn [r] (println "r=" r)))
-
-  (.then (count-2+ "https://google.co.uk") #(println "Result:" %))
-
-  (def result (atom {:people nil}))
-
-  (def res
-    (count-2+ "http://localhost:3000/api/people"))
-
-  (.then res (fn [text] (-> text first (get "id") prn)))
-
-  @result
-
-  (println "Hello!")
 
   (enable-console-print!)
 

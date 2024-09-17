@@ -1,5 +1,5 @@
 (ns azure-function.core-test
-  (:require [cljs.test :refer-macros [async deftest is testing]]
+  (:require [cljs.test :refer-macros [async deftest is]]
             [azure-function.core :refer [hello-handler]]))
 
 (deftest when-name-in-query-string-return-greeting
