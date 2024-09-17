@@ -17,9 +17,10 @@
 (defn hello-handler [^js req ^js _context]
   (js/Promise.resolve (hello req)))
 
-(app.http "hello" #js {:methods #js ["GET" "POST"]
-                       :authLevel "anonymous"
-                       :handler hello-handler})
+(^js app.http "hello" #js {:methods #js ["GET" "POST"]
+                           :authLevel "anonymous"
+                           :handler hello-handler})
+
 
 
 (comment

@@ -3,10 +3,10 @@
  :dependencies []
  :builds {:azure-function
           {:target :node-library
-           :exports {:hello azure-function.core/hello}
+           :exports {:hello-handler azure-function.core/hello-handler
+                     :hello azure-function.core/hello}
            :output-to "azure-function/index.js"
-           :compiler-options {:optimizations :simple}
-           }
+           :compiler-options {:optimizations :advanced}}
           :test
           {:target    :node-test
            :output-to "out/node-tests.js"
