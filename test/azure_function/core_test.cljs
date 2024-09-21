@@ -10,7 +10,7 @@
      (-> (hello-handler req cxt)
          (.then (fn [res]
                   (is (= (js->clj res)
-                         {"status" 200 "body" "Hello, query!"}))
+                         {"status" 200 "body" "CLJS says Hello, query!"}))
                   (done)))))))
 
 (deftest when-name-in-body-return-greeting
@@ -23,5 +23,5 @@
      (-> (hello-handler req cxt)
          (.then (fn [res]
                   (is (= (js->clj res)
-                         {"status" 200 "body" "Hello, body!"}))
+                         {"status" 200 "body" "CLJS says Hello, body!"}))
                   (done)))))))

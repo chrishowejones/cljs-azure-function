@@ -9,7 +9,7 @@
                "World"
                name)]
     #js {:status 200
-         :body (str "Hello, " name "!")}))
+         :body (str "CLJS says Hello, " name "!")}))
 
 (defn hello [^js req]
   (if-let [name (-> req .-query (.get "name"))]

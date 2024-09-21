@@ -46,5 +46,50 @@ $ curl http://localhost:7071/api/hello
 Hello, World!%
 ```
 
+## Test
+
+In order to run the tests.
+
+``` shell
+$ npx shadow-cljs compile test
+```
+
+## Deploy
+
+Ensure that you have built the release build for the azure-function target ([build](#build)).
+
+Login to your azure account.
+
+``` shell
+$ az login
+```
+
+If you don't have one already, create a resource group for the function app (replace the name and the region as required).
+
+``` shell
+$ az group create --name AzureFunctionsQuickstart-rg --location northeurope
+```
+
+Then create a storage account for the function app.
+
+``` shell
+$ az storage account create --name <storage acc name> --location northeurope --resource-group AzureFunctionsQuickstart-rg --sku Standard_LRS --allow-blob-public-access false
+```
+
+Storage account name must be between 3 and 24 characters in length and use numbers and lower-case letters only. Note:
+this can't include hyphens (dashes) or underscores.
+
+Then you should be able to create your Azure function app.
+
+``` shell
+$ az functionapp create --resource-group AzureFunctionsQuickstart-rg --consumption-plan-location northeurope --runtime
+node --runtime-version 18 --functions-version 4 --name <functionapp name> --storage-account <storage acc name>
+```
+
+After that you need to run the following from the root directory of this project.
+
+``` shell
+$ func azure functionapp publish <functionapp name>
+```
 
 
