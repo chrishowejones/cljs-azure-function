@@ -12,5 +12,5 @@
            :autorun   true}
           :node-repl
           {:target :node-script
-           :main azure-function.core/main
+           :main azure-function.core/hello-handler
            :output-to "out/main.js"}}}
