@@ -2,7 +2,7 @@
   "name": "azure-function-example",
   "version": "1.0.0",
   "description": "ClojureScript Azure Function Example",
-  "main": "azure-function/index.js",
+  "main": "src/functions/index.js",
   "scripts": {
     "start": "func start",
     "repl": "npx shadow-cljs node-repl",
