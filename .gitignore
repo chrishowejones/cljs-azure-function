@@ -52,6 +52,7 @@ __pycache__/
 __blobstorage__
 __queuestorage__
 __azurite_db*__.json
-
 # Ignore the generated js in src/functions
 src/functions
+.azure
+
